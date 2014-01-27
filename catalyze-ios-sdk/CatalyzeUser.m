@@ -151,6 +151,11 @@ static CatalyzeUser *currentUser;
 #pragma mark - Current User
 
 + (CatalyzeUser *)currentUser {
+    if (!currentUser)
+    {
+        currentUser = [self user];
+        // todo fill in details
+    }
     return currentUser;
 }
 
