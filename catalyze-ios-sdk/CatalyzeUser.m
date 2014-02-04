@@ -126,6 +126,8 @@ static CatalyzeUser *currentUser;
             
             NSFileManager *fileManager = [NSFileManager defaultManager];
             [fileManager removeItemAtPath:archivePath error:nil];
+            
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Authorization"];
             if (block) {
                 block(status, response, error);
             }
@@ -188,6 +190,7 @@ static CatalyzeUser *currentUser;
         if ([dict valueForKey:@"sessionToken"]) {
             [[NSUserDefaults standardUserDefaults] setValue:[dict valueForKey:@"sessionToken"] forKey:@"Authorization"];
         }
+        [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"catalyze_username"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         block([[operation response] statusCode], dict, nil);
