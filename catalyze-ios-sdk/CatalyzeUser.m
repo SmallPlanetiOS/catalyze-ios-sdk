@@ -502,7 +502,10 @@ static CatalyzeUser *currentUser;
     [name setValuesForKeysWithDictionary:[dict objectForKey:@"name"]];
     [dict setObject:name forKey:@"name"];
     
-    [phoneNumber setValuesForKeysWithDictionary:[dict objectForKey:@"phoneNumber"]];
+    if ([dict objectForKey:@"phoneNumber"]  && ![[dict objectForKey:@"phoneNumber"] isKindOfClass:[NSNull class]])
+    {
+        [phoneNumber setValuesForKeysWithDictionary:[dict objectForKey:@"phoneNumber"]];
+    }
     [dict setObject:phoneNumber forKey:@"phoneNumber"];
     
     for (NSDictionary *ad in [dict objectForKey:@"addresses"]) {
@@ -550,7 +553,7 @@ static CatalyzeUser *currentUser;
     }
     [dict setObject:healthPlans forKey:@"healthPlans"];
     
-    if ([dict objectForKey:@"extras"]) {
+    if ([dict objectForKey:@"extras"] && ![[dict objectForKey:@"extras"] isKindOfClass:[NSNull class]]) {
         [dict setObject:[NSMutableDictionary dictionaryWithDictionary:[dict objectForKey:@"extras"]] forKey:@"extras"];
     }
     return dict;
