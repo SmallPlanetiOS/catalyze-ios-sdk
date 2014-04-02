@@ -48,7 +48,10 @@
     [CatalyzeHTTPManager doGet:[NSString stringWithFormat:@"/classes/%@/query?pageSize=%i&pageNumber=%i",[self catalyzeClassName], _pageSize, _pageNumber] block:^(int status, NSString *response, NSError *error) {
         if (block) {
 //            NSLog(@"response: %@", response);
-            block([NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil], error);
+            if (response)
+                block([NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil], error);
+            else
+                block(nil, error);
         }
     }];
 }
