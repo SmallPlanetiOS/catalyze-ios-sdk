@@ -496,10 +496,14 @@ static CatalyzeUser *currentUser;
     NSMutableArray *mrns = [NSMutableArray array];
     NSMutableArray *healthPlans = [NSMutableArray array];
     
-    [email setValuesForKeysWithDictionary:[dict objectForKey:@"email"]];
+    if ([dict objectForKey:@"email"]) {
+        [email setValuesForKeysWithDictionary:[dict objectForKey:@"email"]];
+    }
     [dict setObject:email forKey:@"email"];
     
-    [name setValuesForKeysWithDictionary:[dict objectForKey:@"name"]];
+    if ([dict objectForKey:@"name"]) {
+        [name setValuesForKeysWithDictionary:[dict objectForKey:@"name"]];
+    }
     [dict setObject:name forKey:@"name"];
     
     if ([dict objectForKey:@"phoneNumber"]  && ![[dict objectForKey:@"phoneNumber"] isKindOfClass:[NSNull class]])
