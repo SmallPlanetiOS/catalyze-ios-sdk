@@ -581,4 +581,32 @@ static CatalyzeUser *currentUser;
     return dict;
 }
 
+#pragma mark - Supervisor role only
+
++ (void) retrieveAllUsersForAppId:(NSString *)appId
+                         pageSize:(int)pageSize
+                       pageNumber:(int)pageNum
+                        withBlock:(CatalyzeArrayResultBlock)block
+{
+    NSString *url = [NSString stringWithFormat:@"/users/%@/list?pageNum=%i&pageSize=%i",appId,pageNum,pageSize];
+    [CatalyzeHTTPManager doGet:url block:^(int status, NSString *response, NSError *error) {
+        NSMutableArray *objects = [NSMutableArray array];
+        if (!error) {
+            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil]];
+            NSArray *users = [dict objectForKey:@"results"];
+            for (NSDictionary *userDict in users)
+            {
+                NSMutableDictionary *dict = [CatalyzeUser modifyDict:[userDict mutableCopy]];
+                CatalyzeUser *user = [CatalyzeUser user];
+                [user setValuesForKeysWithDictionary:dict];
+                [objects addObject:user];
+            }
+        }
+        if (block) {
+            block(objects, error);
+        }
+    }];
+
+}
+
 @end

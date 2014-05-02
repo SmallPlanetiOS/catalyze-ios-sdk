@@ -71,4 +71,7 @@
 - (void)setExtra:(id)extra forKey:(NSString *)key;
 - (void)removeExtraForKey:(NSString *)key;
 
++ (void) retrieveAllUsersForAppId:(NSString *)appId pageSize:(int)pageSize pageNumber:(int)pageNum withBlock:(CatalyzeArrayResultBlock)block;
+
+
 @end
